@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const wagpay = new WagPay();
   const queryClient = new QueryClient();
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
-  const [access, setAccess] = useState(true);
+  const [access, setAccess] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropDownOpenp, setIsDropDownOpenp] = useState(false);
   const [priorityValue, setPriorityValue] = useState(priorties[0]);

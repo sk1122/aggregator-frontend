@@ -22,6 +22,8 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
       console.log("this is the bridge is selected ", routeToExecute)
   }, [routeToExecute])
 
+
+
   return (
     <>
     <label htmlFor="selected-bridge" onClick={() => {
@@ -47,7 +49,6 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
                 fill="#615CCD"
               />
             </svg>
-
             <h2 className="text-xl font-semibold">{bridge?.name}</h2>
             {
               priority !== '' &&  <span className="h-fit rounded-full bg-green-800 px-2 text-center text-xs font-light text-white">
