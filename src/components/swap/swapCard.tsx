@@ -6,6 +6,7 @@ import WagPay from '@wagpay/sdk';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useChainContext } from '@/contexts/ChainContext';
+import { Signer } from 'ethers';
 
 interface Props {
   signerData: any;
@@ -70,7 +71,7 @@ const SwapCard = ({ signerData }: Props) => {
       const id = toast.loading('Swapping...');
       try {
         console.log(signerData);
-        await wagpay.executeRoute(routeToExecute, signerData);
+        await wagpay.executeRoute(routeToExecute, signerData, signerData);
       } catch (e) {
         toast.error('some error', {
           id: id,

@@ -22,6 +22,10 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
       console.log("this is the bridge is selected ", routeToExecute)
   }, [routeToExecute])
 
+  useEffect(() => {
+    console.log(bridge.logoUri)
+  }, [])
+
 
 
   return (
@@ -33,7 +37,7 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
         <div className="mb-2 flex items-center justify-between">
           {/* left */}
           <div className="flex items-center space-x-2">
-            <svg
+            {/* <svg
               width="24"
               height="24"
               viewBox="0 0 18 18"
@@ -48,7 +52,8 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
                 d="M16.7718 13.2247C16.376 13.2247 16.065 12.9137 16.065 12.5179V2.62229C16.065 2.22647 15.7539 1.91547 15.3581 1.91547H8.28984C7.89401 1.91547 7.58301 2.22647 7.58301 2.62229V6.86327C7.58301 7.25909 7.89401 7.57009 8.28984 7.57009H9.70349C10.0993 7.57009 10.4103 7.25909 10.4103 6.86327V5.44961C10.4103 5.05378 10.7213 4.74278 11.1172 4.74278H12.5308C12.9266 4.74278 13.2376 5.05378 13.2376 5.44961V12.5179C13.2376 12.9137 12.9266 13.2247 12.5308 13.2247H12.1208C11.4847 13.2247 11.1737 13.9881 11.6261 14.4263L14.1565 16.9568C14.4392 17.2395 14.8775 17.2395 15.1602 16.9568L17.6907 14.4263C18.1289 13.9881 17.8179 13.2247 17.1959 13.2247H16.7718Z"
                 fill="#615CCD"
               />
-            </svg>
+            </svg> */}
+            <img className='object-cover w-5 h-5' src={bridge.logoUri} alt="" />
             <h2 className="text-xl font-semibold">{bridge?.name}</h2>
             {
               priority !== '' &&  <span className="h-fit rounded-full bg-green-800 px-2 text-center text-xs font-light text-white">

@@ -140,7 +140,7 @@ const Swap = () => {
     toToken: string,
     _amount: string
   ): Promise<void> => {
-    if (!access) {
+    if (access) {
       toast.error("You don't have access ser!");
       return;
     }
