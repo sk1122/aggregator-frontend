@@ -7,12 +7,11 @@ import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useChainContext } from '@/contexts/ChainContext';
 import { Signer } from 'ethers';
+import { Props } from 'next/script';
+import { useSigner } from 'wagmi';
 
-interface Props {
-  signerData: any;
-}
 
-const SwapCard = ({ signerData }: Props) => {
+const SwapCard = () => {
   const wagpay = new WagPay();
   const {
     access,
@@ -45,6 +44,8 @@ const SwapCard = ({ signerData }: Props) => {
     setAmount,
     setToggle,
   } = useChainContext();
+    const { data: signerData, isError, isLoading } = useSigner()
+
 
   const styles = routeToExecute ? ' ' : ' cursor-not-allowed';
   const setAmountToSwap = (e: any) => {
@@ -57,8 +58,10 @@ const SwapCard = ({ signerData }: Props) => {
   }, []);
 
   const swap = async () => {
-    console.log(signerData);
-    if (!access) {
+    const currentAddr = await signerData?.getAddress()
+    console.log(currentAddr)
+
+    if (access) {
       toast.error("You don't have access ser!");
       console.log('hii');
       return;
@@ -71,7 +74,7 @@ const SwapCard = ({ signerData }: Props) => {
       const id = toast.loading('Swapping...');
       try {
         console.log(signerData);
-        await wagpay.executeRoute(routeToExecute, signerData, signerData);
+        currentAddr && await wagpay.executeRoute(currentAddr, routeToExecute, signerData);
       } catch (e) {
         toast.error('some error', {
           id: id,

@@ -72,9 +72,11 @@ const Swap = () => {
 
   const { data: signerData, isError, isLoading } = useSigner();
 
+
   useEffect(() => {
     if (signerData) {
       signerData.getAddress().then((address: any) => {
+        console.log(address)
         setAccount(address);
         db(address)
           .then((find) => {
@@ -140,7 +142,7 @@ const Swap = () => {
     toToken: string,
     _amount: string
   ): Promise<void> => {
-    if (access) {
+    if (!access) {
       toast.error("You don't have access ser!");
       return;
     }
@@ -278,7 +280,7 @@ const Swap = () => {
           setIsDropDownOpenFromCoin(false);
         }}
       >
-        <SwapCard signerData={signerData} />
+        <SwapCard  />
         <div className="col-span-full w-full px-2 sm:px-8 lg:col-span-6 lg:px-0 ">
           <PriorityBar />
           <div className="relative flex w-full flex-col justify-center space-y-12 xl:items-start">
