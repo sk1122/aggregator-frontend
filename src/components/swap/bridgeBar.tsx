@@ -37,30 +37,13 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
         <div className="mb-2 flex items-center justify-between">
           {/* left */}
           <div className="flex items-center space-x-2">
-            {/* <svg
-              width="24"
-              height="24"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7.58481 11.1042V12.5178C7.58481 12.9137 7.27381 13.2247 6.87798 13.2247H5.46433C5.0685 13.2247 4.7575 12.9137 4.7575 12.5178V5.44954C4.7575 5.05372 5.0685 4.74271 5.46433 4.74271H5.87429C6.51043 4.74271 6.82144 3.97934 6.36907 3.54111L3.85276 0.996524C3.78754 0.929409 3.70952 0.876057 3.62332 0.839626C3.53712 0.803195 3.44449 0.784424 3.35091 0.784424C3.25733 0.784424 3.16469 0.803195 3.07849 0.839626C2.99229 0.876057 2.91428 0.929409 2.84906 0.996524L0.318615 3.54111C-0.133756 3.97934 0.191385 4.74271 0.813394 4.74271H1.22336C1.61918 4.74271 1.93018 5.05372 1.93018 5.44954V15.3451C1.93018 15.741 2.24119 16.052 2.63701 16.052H9.7053C10.1011 16.052 10.4121 15.741 10.4121 15.3451V11.1042C10.4121 10.7083 10.1011 10.3973 9.7053 10.3973H8.29164C7.90995 10.3973 7.58481 10.7083 7.58481 11.1042Z"
-                fill="#615CCD"
-              />
-              <path
-                d="M16.7718 13.2247C16.376 13.2247 16.065 12.9137 16.065 12.5179V2.62229C16.065 2.22647 15.7539 1.91547 15.3581 1.91547H8.28984C7.89401 1.91547 7.58301 2.22647 7.58301 2.62229V6.86327C7.58301 7.25909 7.89401 7.57009 8.28984 7.57009H9.70349C10.0993 7.57009 10.4103 7.25909 10.4103 6.86327V5.44961C10.4103 5.05378 10.7213 4.74278 11.1172 4.74278H12.5308C12.9266 4.74278 13.2376 5.05378 13.2376 5.44961V12.5179C13.2376 12.9137 12.9266 13.2247 12.5308 13.2247H12.1208C11.4847 13.2247 11.1737 13.9881 11.6261 14.4263L14.1565 16.9568C14.4392 17.2395 14.8775 17.2395 15.1602 16.9568L17.6907 14.4263C18.1289 13.9881 17.8179 13.2247 17.1959 13.2247H16.7718Z"
-                fill="#615CCD"
-              />
-            </svg> */}
-            <img className='object-cover w-5 h-5' src={bridge.logoUri} alt="" />
+           <img className='object-cover w-5 h-5' src={bridge.logoUri} alt="" />
             <h2 className="text-xl font-semibold">{bridge?.name}</h2>
             {
               priority !== '' &&  <span className="h-fit rounded-full bg-green-800 px-2 text-center text-xs font-light text-white">
               {priority}
             </span>
             }
-            
           </div>
           {/* right */}
           <div className="m-3">
@@ -93,10 +76,13 @@ const BridgeBar = ({ bridge, priority }: IBridgeBarProps) => {
           </div>
           {bridge && bridge.uniswapData && bridge.uniswapData.dex ? (
             <div className="col-span-2 flex items-center ">
-                <span className='w-full '>
-                  Uniswap {Number(bridge.uniswapData.amountToGet).toFixed(2)} on{' '}
-                  {bridge.uniswapData.toToken.symbol}
+                <div className='w-full flex flex-col text-sm '>
+                <span>
+                   Uniswap {Number(bridge.uniswapData.amountToGet).toFixed(2)} 
                 </span>
+                <span>on {bridge.uniswapData.toToken.symbol}</span>
+               
+                </div>
             </div>
           ):  <div className="col-span-2 flex items-center ">
           <span className='w-full '>

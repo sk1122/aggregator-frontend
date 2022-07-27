@@ -57,6 +57,12 @@ const SwapCard = () => {
     console.log(isAuthenticated);
   }, []);
 
+  useEffect(() => {
+          if(signerData) {
+console.log(signerData)
+          }
+          }, [signerData])
+
   const swap = async () => {
     const currentAddr = await signerData?.getAddress()
     console.log(currentAddr)
@@ -252,9 +258,8 @@ const SwapCard = () => {
           </div>
         </div>
         <div>
-          {/* connect wallet button */}
-          {signerData && (
-            <>
+          {signerData ? (
+           <>
               {swapping && (
                 <button
                   onClick={() => swap()}
@@ -295,7 +300,7 @@ const SwapCard = () => {
                 </button>
               )}
             </>
-          )}
+          ) : null}
         </div>
       </section>
     </>
