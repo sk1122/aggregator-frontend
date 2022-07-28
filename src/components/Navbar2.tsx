@@ -1,8 +1,10 @@
+import { useAppContext } from '@/context';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Link from 'next/link';
 import React from 'react';
 
 const Navbar2 = () => {
+  const { isTransectionModalOpen, setIsTransectionModalOpen } = useAppContext()
   return (
     <header className="bg-wagpay-dark pb-4 lg:pb-0">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
@@ -14,7 +16,14 @@ const Navbar2 = () => {
                 <h2 className="text-3xl font-bold text-white">Wagpay.</h2>
               </a>
             </Link>
+
           </div>
+          <div className="flex items-center cursor-pointer hover:underline space-x-8 " onClick={(e) => {
+            setIsTransectionModalOpen(!isTransectionModalOpen)
+          }}>
+            <a
+              className="text-lg font-bold text-white border px-4 py-1">Transections
+            </a>
           <ConnectButton.Custom>
             {({
               account,
@@ -105,9 +114,10 @@ const Navbar2 = () => {
               );
             }}
           </ConnectButton.Custom>
+          </div>
         </div>
       </nav>
-    </header>
+    </header >
   );
 };
 
