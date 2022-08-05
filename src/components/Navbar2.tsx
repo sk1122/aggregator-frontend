@@ -11,9 +11,9 @@ const Navbar2 = () => {
         <div className="flex w-full items-center justify-between border-b border-wagpay-dark py-6 lg:border-none">
           <div className="flex items-center">
             <Link href="/">
-              <a>
+              <a className='text-[#615CCD]'>
                 <span className="sr-only">Wagpay</span>
-                <h2 className="text-3xl font-bold text-white">Wagpay.</h2>
+                <h2 className="text-3xl font-bold ">Wagpay.</h2>
               </a>
             </Link>
 
@@ -22,7 +22,7 @@ const Navbar2 = () => {
             setIsTransectionModalOpen(!isTransectionModalOpen)
           }}>
             <a
-              className="text-lg font-bold text-white border px-4 py-1">Transections
+              className="text-lg font-bold text-white border border-[#615CCD] px-4 py-1">Transections
             </a>
           <ConnectButton.Custom>
             {({
@@ -72,7 +72,7 @@ const Navbar2 = () => {
                       <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 md:space-x-4 lg:space-x-6">
                         <button
                           onClick={openChainModal}
-                          className="flex items-center rounded-full border border-transparent bg-white px-1 text-base font-medium text-wagpay-dark hover:bg-indigo-50"
+                          className="flex items-center text-white rounded-full border border-transparent bg-[#615CCD] px-1 text-base font-medium  hover:bg-indigo-50"
                           type="button"
                         >
                           {chain.hasIcon && (
@@ -95,7 +95,7 @@ const Navbar2 = () => {
                               )}
                             </div>
                           )}
-                          <span className="rounded-full bg-white px-4 py-2">
+                          <span className="rounded-full  px-4 py-2">
                             {chain.name}
                           </span>
                         </button>
@@ -103,7 +103,7 @@ const Navbar2 = () => {
                         <button
                           onClick={openAccountModal}
                           type="button"
-                          className="rounded-full border border-transparent bg-white px-1 text-base text-wagpay-dark hover:bg-indigo-50"
+                          className="rounded-full border border-transparent px-7  bg-[#615CCD]  text-base text-white "
                         >
                           {account.displayName}
                         </button>

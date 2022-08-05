@@ -2,24 +2,29 @@ import { useAppContext } from '@/context';
 import { useEffect, useState } from 'react';
 import WagPay from '@wagpay/sdk';
 import { AiOutlineClose } from 'react-icons/ai';
+import TransectionBar from './transectionBar';
 import { useSigner } from 'wagmi';
 
 const Transections = () => {
   const wagpay = new WagPay();
   const [tsxs, setTsxs] = useState([]);
+  const [transectionfilter, setTransectionFilter] = useState('all_transections')
+
   const { data: signerData, isError, isLoading } = useSigner();
+
   const { setIsTransectionModalOpen } = useAppContext();
 
+  
+
   const fetchTransections = async () => {
-  const address = await  signerData?.getAddress()
-      if(address ){
- const tsx: any = await wagpay.getTxs(
-    address
+    const address = await signerData?.getAddress();
+    const tsx: any = await wagpay.getTxs(
+      '0x5b9f628bae945968a50827b0b586e0e52f65280d'
     );
+    console.log(tsx);
     if (tsx) {
       setTsxs(tsx);
     }
-
   };
 
   useEffect(() => {
@@ -47,23 +52,65 @@ const Transections = () => {
                 name="transection"
                 id="transection"
                 className="bg-[#3A3A3A]"
+                onChange={(e) => {
+                  setTransectionFilter(e.target.value)
+                }}
               >
-                <option value="all_transection">All Transection</option>
-                <option value="pending_transection">Pending Transection</option>
-                <option value="successfull transection">
+                <option key='all' value="all_transection">All Transection</option>
+                <option key='pen' value="pending">Pending Transection</option>
+                <option key='succ' value="successfull">
                   Successfull Transection
                 </option>
               </select>
             </div>
-            { /*
-<div className="relative p-3 flex-auto min-h-[600px] space-y-8">
-              {tsxs.map((tsx: any) => {
-                return <TransectionBar key={tsx.id} />;
-              })}
-            </div>
+            {/*body*/}
+            <div className="relative p-3 flex-auto min-h-[600px] space-y-8">
 
-           */ }
-                      </div>
+              {
+                transectionfilter !== 'all_transection' ? 
+              tsxs.filter((tsx: any) => {
+                return tsx.status.toLowerCase() == transectionfilter
+              }).map((tsx: any) => {
+                return (
+                  <TransectionBar
+                    bridgeName={tsx.bridge}
+                    fromChain={tsx.from_chain}
+                    fromToken=""
+                    fromTransectionHash={tsx.origin_tx_hash}
+                    toChain={tsx.to_chain}
+                    toToken=""
+                    totransectionHash=""
+                    from={tsx.from}
+                    to={tsx.to}
+                    uniswap={null}
+                    key={tsx.id}
+                    status={tsx.status}
+                  />
+                );
+              }): 
+              tsxs.map((tsx: any) => {
+                return (
+                  <TransectionBar
+                    bridgeName={tsx.bridge}
+                    fromChain={tsx.from_chain}
+                    fromToken=""
+                    fromTransectionHash={tsx.origin_tx_hash}
+                    toChain={tsx.to_chain}
+                    toToken=""
+                    totransectionHash=""
+                    from={tsx.from}
+                    to={tsx.to}
+                    uniswap={null}
+                    key={tsx.id}
+                    status={tsx.status}
+                  />
+                );
+              })
+
+            }
+            </div>
+            {/*footer*/}
+          </div>
         </div>
       </div>
     </>
@@ -71,12 +118,3 @@ const Transections = () => {
 };
 
 export default Transections;
-
-
-
-
-
-
-
-
-

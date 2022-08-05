@@ -37,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [filteredFromChains, setFilteredFromChains] = useState<Chain[]>([]);
   const [filteredToChains, setFilteredToChains] = useState<Chain[]>([]);
   const [signer, setSigner] = useState();
+  const [isTransectionModalOpen, setIsTransectionModalOpen] = useState(false);
 
   const sharedState = {
     access,
@@ -77,6 +78,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     setIsDropDownOpenToCoin,
     refreshRoutes,
     setRefreshRoutes,
+    isTransectionModalOpen,
+    setIsTransectionModalOpen,
   };
 
   return (

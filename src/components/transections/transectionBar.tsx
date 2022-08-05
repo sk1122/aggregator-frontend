@@ -1,19 +1,44 @@
 interface Props {
-    bridgeName: string
-    fromChain: string
-    toChain: string
-    fromToken: string
-    toToken: string
-    totransectionHash: string
-    fromTransectionHash: string
+  bridgeName: string;
+  fromChain: string;
+  toChain: string;
+  fromToken: string;
+  toToken: string;
+  totransectionHash: string;
+  fromTransectionHash: string;
+  uniswap: any | null;
+  from: string;
+  to: string;
+  status: string
 }
 
-const TransectionBar = ({bridgeName, fromChain, toChain, toToken, totransectionHash, fromTransectionHash}: Props) => {
+const TransectionBar = ({
+  bridgeName,
+  fromChain,
+  toChain,
+  toToken,
+  totransectionHash,
+  fromTransectionHash,
+  fromToken,
+  uniswap,
+  from,
+  to,
+  status
+}: Props) => {
+
+  const chainConfig: any = {
+   'ETH': 'Ethereum',
+   'POL': 'Polygon' 
+  }
+
+
   return (
     <>
       <div className="w-full space-y-3">
         <div className="w-full flex justify-start">
-          <p className="bg-[#FDD500] text-black px-5 py-1 text-sm rounded-full">pending</p>
+          <p className={ (status.toLowerCase() == 'pending' ? 'bg-[#FDD500] text-black ' : 'bg-green-500 text-white ') +  `  px-5 py-1 text-sm rounded-full `}>
+            {status.toLowerCase()}
+          </p>
         </div>
         <div className="w-full flex justify-between items-center space-x-8">
           <div className="bg-[#2B2B2B] space-y-2 px-6 py-3 flex flex-col items-center">
@@ -23,46 +48,48 @@ const TransectionBar = ({bridgeName, fromChain, toChain, toToken, totransectionH
                 alt=""
                 className="object-cover pr-2"
               />{' '}
-              1000 uSDC
+              1000 {fromToken}
             </p>
             <p className="text-sm  py-1 px-2 rounded-full text-[#727272] ">
-              Etherium mainnet
+              { chainConfig[fromChain]} Mainnet
             </p>
           </div>
           <div className=" relative  flex justify-center  items-center py-2 border-black h-full">
             <div className="absolute px-3 rounded-full flex space-x-36  items-center">
-              <div className="flex  items-start   flex-col justify-center">
-                <div className="flex">
-                  <img src="/images/usdc.png" alt="" />
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 28 28"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14.0968 14.8793C14.9378 14.8793 15.3148 14.8568 15.3878 14.8513L15.3853 14.8507C17.9654 14.7364 19.89 14.2864 19.89 13.7489C19.89 13.2113 17.9648 12.7613 15.3853 12.6464V14.4038C15.313 14.4105 14.911 14.4439 14.1084 14.4439C13.4395 14.4439 12.9554 14.4153 12.7864 14.4032V12.6452C10.2014 12.7607 8.27199 13.2101 8.27199 13.7489C8.27199 14.2876 10.2014 14.7376 12.7864 14.8513C12.953 14.8592 13.4279 14.8793 14.0968 14.8793Z"
-                      fill="#50AF95"
-                    />
-                    <path
-                      d="M15.3878 12.464V12.4646L15.3872 12.464L15.3878 12.464Z"
-                      fill="#50AF95"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28ZM15.3878 10.8915V12.464C18.3081 12.5991 20.5023 13.1779 20.5023 13.8717C20.5023 14.5655 18.3059 15.1444 15.3872 15.2788V20.3216H12.7858V15.2806C9.8603 15.1456 7.66026 14.5667 7.66026 13.8723C7.66026 13.1779 9.8603 12.5984 12.7858 12.464V10.8915H9.18654V8.4926H18.9876V10.8915H15.3878Z"
-                      fill="#50AF95"
-                    />
-                  </svg>
+              {uniswap && (
+                <div className="flex  items-start   flex-col justify-center">
+                  <div className="flex">
+                    <img src="/images/usdc.png" alt="" />
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 28 28"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.0968 14.8793C14.9378 14.8793 15.3148 14.8568 15.3878 14.8513L15.3853 14.8507C17.9654 14.7364 19.89 14.2864 19.89 13.7489C19.89 13.2113 17.9648 12.7613 15.3853 12.6464V14.4038C15.313 14.4105 14.911 14.4439 14.1084 14.4439C13.4395 14.4439 12.9554 14.4153 12.7864 14.4032V12.6452C10.2014 12.7607 8.27199 13.2101 8.27199 13.7489C8.27199 14.2876 10.2014 14.7376 12.7864 14.8513C12.953 14.8592 13.4279 14.8793 14.0968 14.8793Z"
+                        fill="#50AF95"
+                      />
+                      <path
+                        d="M15.3878 12.464V12.4646L15.3872 12.464L15.3878 12.464Z"
+                        fill="#50AF95"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28ZM15.3878 10.8915V12.464C18.3081 12.5991 20.5023 13.1779 20.5023 13.8717C20.5023 14.5655 18.3059 15.1444 15.3872 15.2788V20.3216H12.7858V15.2806C9.8603 15.1456 7.66026 14.5667 7.66026 13.8723C7.66026 13.1779 9.8603 12.5984 12.7858 12.464V10.8915H9.18654V8.4926H18.9876V10.8915H15.3878Z"
+                        fill="#50AF95"
+                      />
+                    </svg>
+                  </div>
+                  <p className="text-sm">uniswap</p>
                 </div>
-                <p className="text-sm">uniswap</p>
-              </div>
+              )}
 
-              <div className="flex space-x-1 bg-[#2A2A2A] px-1">
+              <div className="flex space-x-1 bg-[#2A2A2A] px-2 py-1">
                 <img src="/images/bridgeBadge.png" className="w-5 h-5" alt="" />
-                <p>Hyphen Bridge</p>
+                <p>{bridgeName.toLowerCase()} bridge</p>
               </div>
             </div>
             <svg
@@ -85,19 +112,21 @@ const TransectionBar = ({bridgeName, fromChain, toChain, toToken, totransectionH
                 alt=""
                 className="object-cover pr-2"
               />{' '}
-              1000 uSDC
+              1000 {toToken}
             </p>
-            <p className="text-sm  py-1 px-2 rounded-full text-[727272] ">
-              Etherium mainnet
+            <p className="text-sm  py-1 px-2 rounded-full text-[#727272] ">
+              {chainConfig[toChain]} Mainnet
             </p>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div className="space-y-1">
             <p className=" text-sm py-1  px-2 rounded-full">
-              source address : 0x32d{' '}
+              source address : {from.slice(0, 4)}
             </p>
-            <p className=" text-sm py-1 px-2 rounded-full">origin hash : </p>
+            <p className=" text-sm py-1 px-2 rounded-full">
+              origin hash : {fromTransectionHash.slice(0, 5)}{' '}
+            </p>
           </div>
           <div className="flex flex-col space-y-2">
             <svg
@@ -127,9 +156,11 @@ const TransectionBar = ({bridgeName, fromChain, toChain, toToken, totransectionH
           </div>
           <div className="space-y-1 pr-4">
             <p className=" text-sm py-1 px-2 rounded-full">
-              source address : 0x32d{' '}
+              to address : {to.slice(0, 4)}
             </p>
-            <p className="text-sm px-2 rounded-full">origin hash : </p>
+            <p className="text-sm px-2 rounded-full">
+              to hash :{totransectionHash.slice(0.5)}{' '}
+            </p>
           </div>
         </div>
       </div>
@@ -138,4 +169,3 @@ const TransectionBar = ({bridgeName, fromChain, toChain, toToken, totransectionH
 };
 
 export default TransectionBar;
-
