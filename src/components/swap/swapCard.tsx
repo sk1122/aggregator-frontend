@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import {  useAppContext } from '@/context';
 import ChainSelect from './ChainSelect';
 import CoinSelect from './CoinSelect';
 import SwapChainButton from './swapChainButton';
@@ -13,6 +13,8 @@ import { useSigner } from 'wagmi';
 
 const SwapCard = () => {
   const wagpay = new WagPay();
+  const [sendToOpen, setSendToOpen] = useState(false)
+
   const {
     access,
     routeToExecute,
@@ -28,6 +30,8 @@ const SwapCard = () => {
     setIsDropDownOpenFromCoin,
     isDropDownOpenToCoin,
     setIsDropDownOpenToCoin,
+
+    TtoAdress, setToAdress
   } = useAppContext();
 
   const {
@@ -80,7 +84,7 @@ console.log(signerData)
       const id = toast.loading('Swapping...');
       try {
         console.log(signerData);
-        currentAddr && await wagpay.executeRoute(currentAddr, routeToExecute, signerData);
+        currentAddr && await wagpay.executeRoute(TtoAdress ? TtoAdress : currentAddr, routeToExecute, signerData);
       } catch (e) {
         toast.error('some error', {
           id: id,
@@ -126,7 +130,7 @@ console.log(signerData)
           </div>
         </div>
 
-        <div className="col-span-7 mt-4 flex w-full flex-col space-y-2 rounded-md bg-primaryGray p-3 dark:bg-tertiaryGray sm:mt-7">
+        <div className="col-span-7 mt-4 flex w-full flex-col space-y-3 rounded-md bg-primaryGray p-3 dark:bg-tertiaryGray sm:mt-7">
           <h2 className="mb-4 font-semibold">Selected Tokens</h2>
           <label
             htmlFor="sender"
@@ -209,7 +213,12 @@ console.log(signerData)
               setIsDropDownOpenCoin={setIsDropDownOpenToCoin}
             />
           </div>
-          <span className="text-sm text-primaryGray"></span>
+          <div className='w-full flex justify-end py-2 text-lg cursor-pointer' onClick={(e) => {
+            setSendToOpen(!sendToOpen)
+          }}>+Send to</div>
+            {sendToOpen && <input placeholder='add receiepents wallet address ' onChange={(e) => {
+              setToAdress(e.target.value)
+            }} className='p-2 bg-wagpay-card-bg-secondary placeholder:text-gray-400 '  />}
         </div>
 
         <div className="flex w-full flex-col space-y-2 rounded-md p-2 dark:bg-secondaryDark">

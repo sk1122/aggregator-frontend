@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [filteredToChains, setFilteredToChains] = useState<Chain[]>([]);
   const [signer, setSigner] = useState();
   const [isTransectionModalOpen, setIsTransectionModalOpen] = useState(false);
+  const [ toAdress, setToAdress] = useState<string | null > (null)
 
   const sharedState = {
     access,
@@ -80,6 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     setRefreshRoutes,
     isTransectionModalOpen,
     setIsTransectionModalOpen,
+    toAdress, setToAdress
   };
 
   return (
