@@ -2,9 +2,12 @@ import { useAppContext } from '@/context';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Link from 'next/link';
 import React from 'react';
+import { useSigner } from 'wagmi';
 
 const Navbar2 = () => {
-  const { isTransectionModalOpen, setIsTransectionModalOpen } = useAppContext()
+  const { isTransectionModalOpen, setIsTransectionModalOpen  } = useAppContext()
+    const { data: signerData, isError, isLoading } = useSigner();
+
   return (
     <header className="bg-wagpay-dark pb-4 lg:pb-0">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
@@ -18,12 +21,13 @@ const Navbar2 = () => {
             </Link>
 
           </div>
-          <div className="flex items-center cursor-pointer hover:underline space-x-8 " onClick={(e) => {
+          <div className="flex items-center cursor-pointer space-x-8 ">
+            
+            {signerData &&  <a  onClick={(e) => {
             setIsTransectionModalOpen(!isTransectionModalOpen)
-          }}>
-            <a
+          }}
               className="text-lg font-bold text-white border border-[#615CCD] px-4 py-1">Transections
-            </a>
+            </a> }
           <ConnectButton.Custom>
             {({
               account,

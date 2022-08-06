@@ -8,14 +8,9 @@ import { useSigner } from 'wagmi';
 const Transections = () => {
   const wagpay = new WagPay();
   const [tsxs, setTsxs] = useState([]);
-  const [transectionfilter, setTransectionFilter] = useState('all_transections')
-
+  const [transectionfilter, setTransectionFilter] = useState('all_transection')
   const { data: signerData, isError, isLoading } = useSigner();
-
   const { setIsTransectionModalOpen } = useAppContext();
-
-  
-
   const fetchTransections = async () => {
     const address = await signerData?.getAddress();
     const tsx: any = await wagpay.getTxs(

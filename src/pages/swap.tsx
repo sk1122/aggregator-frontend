@@ -99,9 +99,7 @@ const Swap = () => {
     }
   }, [signerData]);
 
-  useEffect(() => {
-    console.log(signerData);
-  }, [signerData]);
+
 
   const checkWalletIsConnected = async () => {
     try {
@@ -143,7 +141,7 @@ const Swap = () => {
     toToken: string,
     _amount: string
   ): Promise<void> => {
-    if (!access) {
+    if (access) {
       toast.error("You don't have access ser!");
       return;
     }
