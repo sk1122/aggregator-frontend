@@ -27,6 +27,7 @@ import { useSigner } from 'wagmi';
 import { useChainContext } from '@/contexts/ChainContext';
 import Transections from '@/components/transections';
 import WagPay from "@wagpay/sdk"
+import TokenList from '@/components/tokenlist';
 
 const Swap = () => {
   const wagpay = new WagPay()
@@ -340,6 +341,7 @@ const Swap = () => {
           <EarlyAcess />
         </Modal>
         {isTransectionModalOpen ? <Transections /> : null}
+        <TokenList />
       </div>
     </Main>
   );
