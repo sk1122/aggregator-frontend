@@ -14,7 +14,7 @@ const Transections = () => {
   const fetchTransections = async () => {
     const address = await signerData?.getAddress();
     const tsx: any = await wagpay.getTxs(
-      '0x5b9f628bae945968a50827b0b586e0e52f65280d'
+      '0x5b9f628bae945968a50827b0b586e0e52f65280d', ['from_token', 'to_token']
     );
     console.log(tsx);
     if (tsx) {
