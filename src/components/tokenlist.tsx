@@ -6,7 +6,7 @@ import { FiEdit } from 'react-icons/fi';
 
 const TokenList = () => {
   const { showTokenList, setShowTokenList } = useAppContext();
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
 
   const CoinCaps = () => {
     return (
@@ -72,28 +72,54 @@ const TokenList = () => {
   };
 
   const CustomTokenList = () => {
+    const [selectedTab, setSelectedTab] = useState('List');
     return (
       <>
         <div className="w-full flex justify-between text-center bg-[#1F1F1F] p-1 space-y-0">
-          <div className="w-full bg-[#353434] p-2">
+          <div
+            onClick={(e) => {
+              setSelectedTab('List');
+            }}
+            className={
+              (selectedTab == 'List' ? 'bg-[#353434]' : ' bg-transparent ') +
+              ' w-full  p-2'
+            }
+          >
             <p>List</p>
           </div>
-          <div className="w-full bg-transparent p-2">
+          <div
+            onClick={(e) => {
+              setSelectedTab('Token');
+            }}
+            className={
+              (selectedTab == 'Token' ? 'bg-[#353434]' : ' bg-transparent ') +
+              ' w-full  p-2'
+            }
+          >
             <p>Token</p>
           </div>
         </div>
-        <div className="text-white bg-[#353434]  w-full px-2  flex items-center">
-          <AiOutlineSearch className="text-2xl" />
-          <input
-            type="text"
-            placeholder="search tokens"
-            className="w-full bg-transparent border-none p-3 focus:outline-none focus:border-none"
-          />
-        </div>
-        <div className='space-y-1'>
-          <TokenListSelect />
-           <TokenListSelect />
-            <TokenListSelect />
+        <div>
+          {selectedTab == 'List' ? (
+            <>
+              {' '}
+              <div className="text-white bg-[#353434]  w-full px-2  flex items-center">
+                <AiOutlineSearch className="text-2xl" />
+                <input
+                  type="text"
+                  placeholder="search tokens"
+                  className="w-full bg-transparent border-none p-3 focus:outline-none focus:border-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <TokenListSelect />
+                <TokenListSelect />
+                <TokenListSelect />
+              </div>{' '}
+            </>
+          ) : (
+            <AddTOkens />
+          )}
         </div>
       </>
     );
@@ -102,32 +128,49 @@ const TokenList = () => {
   const TokenListSelect = () => {
     return (
       <>
-        <div className='flex justify-between items-center p-2 bg-[#C8C8C8] text-black rounded-sm'>
-          <div className='flex items-center space-x-2'>
+        <div className="flex justify-between items-center p-2 bg-[#C8C8C8] text-black rounded-sm">
+          <div className="flex items-center space-x-2">
             <img src="/t.svg" alt="" />
-            <div className='text-sm'>
+            <div className="text-sm">
               <p>1inch</p>
               <p>32 tokens</p>
             </div>
           </div>
-            <div className="flex items-center">
-                <div className="form-switch">
-                  <input
-                    type="checkbox"
-                    id="switch"
-                    className="sr-only"
-                    checked={toggle}
-                    onChange={() => setToggle(!toggle)}
-                  />
-                  <label className="bg-gray-400" htmlFor="switch">
-                    <span
-                      className="bg-white shadow-sm"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="sr-only">Switch label</span>
-                  </label>
-                </div>
-              </div>
+          <div className="flex items-center">
+            <div className="form-switch">
+              <input
+                type="checkbox"
+                id="switch"
+                className="sr-only"
+                checked={toggle}
+                onChange={() => setToggle(!toggle)}
+              />
+              <label className="bg-gray-400" htmlFor="switch">
+                <span className="bg-white shadow-sm" aria-hidden="true"></span>
+                <span className="sr-only">Switch label</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const AddTOkens = () => {
+    return (
+      <>
+        <div className='space-y-2'>
+          <div className="text-white bg-[#353434]  w-full px-2  flex items-center">
+            <AiOutlineSearch className="text-2xl" />
+            <input
+              type="text"
+              placeholder="search tokens"
+              className="w-full bg-transparent border-none p-3 focus:outline-none focus:border-none"
+            />
+          </div>
+          <div className='w-full border-3 text-center border border-gray-400 p-4 text-gray-500'>
+            <p>No Tokens Added</p>
+          </div>
         </div>
       </>
     );
