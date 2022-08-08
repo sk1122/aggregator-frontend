@@ -82,7 +82,7 @@ const TokenList = () => {
           <div className="w-full bg-[#1F1F1F] p-1 space-y-1">
             {tokens?.map((token: Token) => {
             console.log(token.logoURI)
-              return <Token name={token.name} symbol={token.symbol} logoURI={token.logoURI} address={token.address} chainId={token.chainId} key={token.name} />;
+              return <Token decimals={token.decimals} name={token.name} symbol={token.symbol} logoURI={token.logoURI} address={token.address} chainId={token.chainId} key={token.name} />;
             })}
           </div>
         </div>
