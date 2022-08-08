@@ -1,20 +1,33 @@
+import { useAppContext } from '@/context';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Link from 'next/link';
 import React from 'react';
+import { useSigner } from 'wagmi';
 
 const Navbar2 = () => {
+  const { isTransectionModalOpen, setIsTransectionModalOpen  } = useAppContext()
+    const { data: signerData, isError, isLoading } = useSigner();
+
   return (
     <header className="bg-wagpay-dark pb-4 lg:pb-0">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex w-full items-center justify-between border-b border-wagpay-dark py-6 lg:border-none">
           <div className="flex items-center">
             <Link href="/">
-              <a>
+              <a className='text-[#615CCD]'>
                 <span className="sr-only">Wagpay</span>
-                <h2 className="text-3xl font-bold text-white">Wagpay.</h2>
+                <h2 className="text-3xl font-bold ">Wagpay.</h2>
               </a>
             </Link>
+
           </div>
+          <div className="flex items-center cursor-pointer space-x-8 ">
+            
+            {signerData &&  <a  onClick={(e) => {
+            setIsTransectionModalOpen(!isTransectionModalOpen)
+          }}
+              className="text-lg font-bold text-white border border-[#615CCD] px-4 py-1">Transections
+            </a> }
           <ConnectButton.Custom>
             {({
               account,
@@ -63,7 +76,7 @@ const Navbar2 = () => {
                       <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 md:space-x-4 lg:space-x-6">
                         <button
                           onClick={openChainModal}
-                          className="flex items-center rounded-full border border-transparent bg-white px-1 text-base font-medium text-wagpay-dark hover:bg-indigo-50"
+                          className="flex items-center text-white rounded-full border border-transparent bg-[#615CCD] px-1 text-base font-medium  hover:bg-indigo-50"
                           type="button"
                         >
                           {chain.hasIcon && (
@@ -86,7 +99,7 @@ const Navbar2 = () => {
                               )}
                             </div>
                           )}
-                          <span className="rounded-full bg-white px-4 py-2">
+                          <span className="rounded-full  px-4 py-2">
                             {chain.name}
                           </span>
                         </button>
@@ -94,7 +107,7 @@ const Navbar2 = () => {
                         <button
                           onClick={openAccountModal}
                           type="button"
-                          className="rounded-full border border-transparent bg-white px-1 text-base text-wagpay-dark hover:bg-indigo-50"
+                          className="rounded-full border border-transparent px-7  bg-[#615CCD]  text-base text-white "
                         >
                           {account.displayName}
                         </button>
@@ -105,9 +118,10 @@ const Navbar2 = () => {
               );
             }}
           </ConnectButton.Custom>
+          </div>
         </div>
       </nav>
-    </header>
+    </header >
   );
 };
 

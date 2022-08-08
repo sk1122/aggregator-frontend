@@ -6,13 +6,13 @@ import WagPay from '@wagpay/sdk';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useChainContext } from '@/contexts/ChainContext';
-import { Signer } from 'ethers';
-import { Props } from 'next/script';
-import { useSigner } from 'wagmi';
 
+import { useSigner } from 'wagmi';
 
 const SwapCard = () => {
   const wagpay = new WagPay();
+  const [sendToOpen, setSendToOpen] = useState(false);
+
   const {
     access,
     routeToExecute,
@@ -22,12 +22,12 @@ const SwapCard = () => {
     routes,
     filteredFromChains,
     filteredToChains,
-    setAccount,
-    setIsAuthenticated,
     isDropDownOpenFromCoin,
     setIsDropDownOpenFromCoin,
     isDropDownOpenToCoin,
     setIsDropDownOpenToCoin,
+    TtoAdress,
+    setToAdress,
   } = useAppContext();
 
   const {
@@ -44,8 +44,7 @@ const SwapCard = () => {
     setAmount,
     setToggle,
   } = useChainContext();
-    const { data: signerData, isError, isLoading } = useSigner()
-
+  const { data: signerData, isError, isLoading } = useSigner();
 
   const styles = routeToExecute ? ' ' : ' cursor-not-allowed';
   const setAmountToSwap = (e: any) => {
@@ -58,14 +57,14 @@ const SwapCard = () => {
   }, []);
 
   useEffect(() => {
-          if(signerData) {
-console.log(signerData)
-          }
-          }, [signerData])
+    if (signerData) {
+      console.log(signerData);
+    }
+  }, [signerData]);
 
   const swap = async () => {
-    const currentAddr = await signerData?.getAddress()
-    console.log(currentAddr)
+    const currentAddr = await signerData?.getAddress();
+    console.log(currentAddr);
 
     if (access) {
       toast.error("You don't have access ser!");
@@ -80,7 +79,12 @@ console.log(signerData)
       const id = toast.loading('Swapping...');
       try {
         console.log(signerData);
-        currentAddr && await wagpay.executeRoute(currentAddr, routeToExecute, signerData);
+        currentAddr &&
+          (await wagpay.executeRoute(
+            TtoAdress ? TtoAdress : currentAddr,
+            routeToExecute,
+            signerData
+          ));
       } catch (e) {
         toast.error('some error', {
           id: id,
@@ -126,7 +130,7 @@ console.log(signerData)
           </div>
         </div>
 
-        <div className="col-span-7 mt-4 flex w-full flex-col space-y-2 rounded-md bg-primaryGray p-3 dark:bg-tertiaryGray sm:mt-7">
+        <div className="col-span-7 mt-4 flex w-full flex-col space-y-3 rounded-md bg-primaryGray p-3 dark:bg-tertiaryGray sm:mt-7">
           <h2 className="mb-4 font-semibold">Selected Tokens</h2>
           <label
             htmlFor="sender"
@@ -157,25 +161,6 @@ console.log(signerData)
               setIsDropDownOpenCoin={setIsDropDownOpenFromCoin}
             />
           </div>
-          <span className="text-sm text-primaryGray"></span>
-          {/* svg */}
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            aria-hidden="true"
-            role="img"
-            width="36"
-            height="36"
-            preserveAspectRatio="xMidYMid meet"
-            className="flex w-full items-center"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="#888888"
-              d="m18 4l-4 4h3v8a2 2 0 0 1-2 2a2 2 0 0 1-2-2V8a4 4 0 0 0-4-4a4 4 0 0 0-4 4v8H2l4 4l4-4H7V8a2 2 0 0 1 2-2a2 2 0 0 1 2 2v8a4 4 0 0 0 4 4a4 4 0 0 0 4-4V8h3l-4-4Z"
-            ></path>
-          </svg> */}
-          {/* receive section */}
           <label
             htmlFor="sender"
             className="mb-2 block text-left text-sm text-black dark:text-white"
@@ -209,7 +194,23 @@ console.log(signerData)
               setIsDropDownOpenCoin={setIsDropDownOpenToCoin}
             />
           </div>
-          <span className="text-sm text-primaryGray"></span>
+          <div
+            className="w-full flex justify-end py-2 text-lg cursor-pointer"
+            onClick={(e) => {
+              setSendToOpen(!sendToOpen);
+            }}
+          >
+            +Send to
+          </div>
+          {sendToOpen && (
+            <input
+              placeholder="add receiepents wallet address "
+              onChange={(e) => {
+                setToAdress(e.target.value);
+              }}
+              className="p-2 bg-wagpay-card-bg-secondary placeholder:text-gray-400 "
+            />
+          )}
         </div>
 
         <div className="flex w-full flex-col space-y-2 rounded-md p-2 dark:bg-secondaryDark">
@@ -229,42 +230,45 @@ console.log(signerData)
           </div>
         </div>
 
-        <div className="col-span-7 mt-1 flex items-center justify-between sm:mt-6">
-          <span className="text-white">Select bridge Automatically</span>
-          <div>
-            {/* Start */}
-            <div className="flex items-center">
-              <div className="mr-2 text-sm italic text-gray-400">
-                {toggle ? 'On' : 'Off'}
+        {routes && (
+          <div className="col-span-7 mt-1 flex items-center justify-between sm:mt-6">
+            <span className="text-white">Select bridge Automatically</span>
+            <div>
+              {/* Start */}
+
+              <div className="flex items-center">
+                <div className="mr-2 text-sm italic text-gray-400">
+                  {toggle ? 'On' : 'Off'}
+                </div>
+                <div className="form-switch">
+                  <input
+                    type="checkbox"
+                    id="switch"
+                    className="sr-only"
+                    checked={toggle}
+                    onChange={() => setToggle(!toggle)}
+                  />
+                  <label className="bg-gray-400" htmlFor="switch">
+                    <span
+                      className="bg-white shadow-sm"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="sr-only">Switch label</span>
+                  </label>
+                </div>
               </div>
-              <div className="form-switch">
-                <input
-                  type="checkbox"
-                  id="switch"
-                  className="sr-only"
-                  checked={toggle}
-                  onChange={() => setToggle(!toggle)}
-                />
-                <label className="bg-gray-400" htmlFor="switch">
-                  <span
-                    className="bg-white shadow-sm"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only">Switch label</span>
-                </label>
-              </div>
+              {/* End */}
             </div>
-            {/* End */}
           </div>
-        </div>
+        )}
         <div>
           {signerData ? (
-           <>
+            <>
               {swapping && (
                 <button
                   onClick={() => swap()}
                   type="button"
-                  className="flex justify-center items-center col-span-7 mt-5 w-full rounded-full border border-transparent bg-white py-2 px-4 text-base font-medium text-wagpay-dark hover:bg-indigo-50"
+                  className="flex justify-center items-center col-span-7 mt-5 w-full rounded-full border border-transparent bg-[#615CCD] py-2 px-4 text-base font-medium text-white"
                 >
                   <div className="bg-white text-sm cursor-pointer text-black px-3 py-3 rounded-md font-semibold w-40 flex justify-center items-center">
                     <svg
@@ -294,7 +298,7 @@ console.log(signerData)
                 <button
                   onClick={swap}
                   type="button"
-                  className={` ${styles} col-span-7 mt-5 w-full rounded-full border border-transparent bg-white py-2 px-4 text-base font-medium text-wagpay-dark hover:bg-indigo-501 `}
+                  className={` ${styles} col-span-7 mt-5 w-full rounded-full border border-transparent bg-[#615CCD] py-2 px-4 text-base font-medium text-white `}
                 >
                   Swap
                 </button>

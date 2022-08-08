@@ -1,4 +1,4 @@
-import WagPay from '@wagpay/sdk';
+
 import {
   chainEnum,
   ChainId,
@@ -25,10 +25,11 @@ import PriorityBar from '@/components/swap/priorityBar';
 import SwapCard from '@/components/swap/swapCard';
 import { useSigner } from 'wagmi';
 import { useChainContext } from '@/contexts/ChainContext';
+import Transections from '@/components/transections';
+import WagPay from "@wagpay/sdk"
 
 const Swap = () => {
-  const wagpay = new WagPay();
-
+  const wagpay = new WagPay()
   const {
     access,
     setAccess,
@@ -53,6 +54,7 @@ const Swap = () => {
     priorties,
     refreshRoutes,
     setRefreshRoutes,
+    isTransectionModalOpen,
   } = useAppContext();
 
   const {
@@ -72,11 +74,10 @@ const Swap = () => {
 
   const { data: signerData, isError, isLoading } = useSigner();
 
-
   useEffect(() => {
     if (signerData) {
       signerData.getAddress().then((address: any) => {
-        console.log(address)
+        console.log(address);
         setAccount(address);
         db(address)
           .then((find) => {
@@ -98,9 +99,7 @@ const Swap = () => {
     }
   }, [signerData]);
 
-  useEffect(() => {
-    console.log(signerData);
-  }, [signerData]);
+
 
   const checkWalletIsConnected = async () => {
     try {
@@ -142,7 +141,7 @@ const Swap = () => {
     toToken: string,
     _amount: string
   ): Promise<void> => {
-    if (!access) {
+    if (access) {
       toast.error("You don't have access ser!");
       return;
     }
@@ -280,7 +279,7 @@ const Swap = () => {
           setIsDropDownOpenFromCoin(false);
         }}
       >
-        <SwapCard  />
+        <SwapCard />
         <div className="col-span-full w-full px-2 sm:px-8 lg:col-span-6 lg:px-0 ">
           <PriorityBar />
           <div className="relative flex w-full flex-col justify-center space-y-12 xl:items-start">
@@ -340,6 +339,7 @@ const Swap = () => {
         <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
           <EarlyAcess />
         </Modal>
+        {isTransectionModalOpen ? <Transections /> : null}
       </div>
     </Main>
   );
