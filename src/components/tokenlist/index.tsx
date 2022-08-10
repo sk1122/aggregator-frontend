@@ -3,55 +3,48 @@ import { useEffect, useState } from 'react';
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { IoMdArrowBack } from 'react-icons/io';
 import axios from 'axios';
-import { Token } from '@wagpay/types';
+
 import CustomTokenList from './customList';
 import DefaultTokenList from './DefaultList';
-
-export interface TokenList {
-  name: string;
-  url: string;
-  logourl: string;
-  timestamp: string;
-}
-
-
-
-
-
-export interface TokenInterface {
-  address: string;
-  chainId: number;
-  name: string;
-  symbol: string;
-  decimals: number
-  logoURI: string;
-}
-
+import { TokenInterface, TokenList, useChainContext } from '@/contexts/ChainContext';
 
 const defaultList: TokenList[] = [
-    {
-      name: '1inch',
-      url: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link',
-      timestamp: '2022-08-08T06:09:44.387+00:00',
-      logourl: 'https://app.1inch.io/assets/images/logo.png',
-    },
-    {
-      name: 'CoinGecko',
-      url: 'https://tokens.coingecko.com/uniswap/all.json',
-      timestamp: '2022-08-08T06:09:44.387+00:01',
-      logourl:
-        'https://www.coingecko.com/assets/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png',
-    },
-  ];
+  {
+    name: '1inch',
+    url: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link',
+    timestamp: '2022-08-08T06:09:44.387+00:00',
+    logourl: 'https://app.1inch.io/assets/images/logo.png',
+  },
+  {
+    name: 'CoinGecko',
+    url: 'https://tokens.coingecko.com/uniswap/all.json',
+    timestamp: '2022-08-08T06:09:44.387+00:01',
+    logourl:
+      'https://www.coingecko.com/assets/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png',
+  },
+];
 
+interface Props {
 
-const TokenList = () => {
+  tokenValue: string
+}
+
+const TokenList = ({ tokenValue}: Props) => {
   const { showTokenList, setShowTokenList } = useAppContext();
   const [onMangaeTokenPage, setOnManageTokenPage] = useState(false);
-  const [tokens, setTokens] = useState<Token[] | null>(null);
-  const [tokenLists, setTokenlists] = useState<TokenList[]>(defaultList)
+  const {fromCoin, toCoin} = useChainContext()
+  const [tokens, setTokens] = useState<TokenInterface[] | null>(null);
+  const [tokenLists, setTokenlists] = useState<TokenList[]>(defaultList);
+  console.log("rendring ", tokenValue)
 
+  useEffect(() => {
+    console.log(fromCoin)
+    console.log(toCoin)
+  }, [fromCoin, toCoin])
 
+useEffect(() => {
+  console.log(tokenValue)
+}, [])
 
   const fetchTokens = async () => {
     const res = await axios.get(
@@ -66,12 +59,9 @@ const TokenList = () => {
 
   useEffect(() => {
     console.log(tokens);
-    console.log(tokens?.filter((token: any) => token.symbol == "ETH"))
-    
+    console.log(tokens?.filter((token: any) => token.symbol == 'ETH'));
   }, [tokens]);
 
-
- 
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto backdrop-blur-sm fixed inset-0 z-50 outline-none focus:outline-none">
@@ -105,7 +95,18 @@ const TokenList = () => {
             </div>
             {/*body*/}
             <div className="relative py-2 flex-auto min-h-[500px] space-y-3">
-              {onMangaeTokenPage ? <CustomTokenList setTokens={setTokens} tokenlists={tokenLists} /> : <DefaultTokenList setOnManageTokenPage={setOnManageTokenPage} tokens={tokens} />}
+              {onMangaeTokenPage ? (
+                <CustomTokenList
+                  setTokens={setTokens}
+                  tokenlists={tokenLists}
+                />
+              ) : (
+                <DefaultTokenList
+                  tokenValue={tokenValue}
+                  setOnManageTokenPage={setOnManageTokenPage}
+                  tokens={tokens}
+                />
+              )}
             </div>
           </div>
         </div>

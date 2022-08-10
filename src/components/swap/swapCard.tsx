@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useChainContext } from '@/contexts/ChainContext';
 
 import { useSigner } from 'wagmi';
+import TokenList from '../tokenlist';
 
 const SwapCard = () => {
   const wagpay = new WagPay();
@@ -30,7 +31,6 @@ const SwapCard = () => {
     showTokenList,
     setShowTokenList,
     setToAdress,
-
   } = useAppContext();
 
   const {
@@ -48,6 +48,7 @@ const SwapCard = () => {
     setToggle,
   } = useChainContext();
   const { data: signerData, isError, isLoading } = useSigner();
+  const [tokenvalue, setTokenValue] = useState('from') 
 
   const styles = routeToExecute ? ' ' : ' cursor-not-allowed';
   const setAmountToSwap = (e: any) => {
@@ -103,7 +104,8 @@ const SwapCard = () => {
   };
 
   useEffect(() => {
-    console.log(fromCoin, toCoin, wagpay.getSupportedCoins(137), 'fromCoin');
+    console.log(fromCoin, 'from coin');
+    console.log(toCoin, 'tocoin');
   }, [fromCoin, toCoin]);
 
   return (
@@ -154,21 +156,15 @@ const SwapCard = () => {
                 <span className="text-xs text-gray-400">MAX</span>
               </div>
             </div>
-            <div onClick={(e) => {
-              setShowTokenList(!showTokenList)
-            }}>
-            <CoinSelect
+             <CoinSelect
               value={fromCoin}
-              setValue={setFromCoin}
-              supportedCoins={Object.values(
-                wagpay.getSupportedCoins(fromChain.id)
-              )}
-              isDropDownOpenCoin={isDropDownOpenFromCoin}
-              setIsDropDownOpenCoin={setIsDropDownOpenFromCoin}
-            />
- 
-            </div>
-         </div>
+              onClick={() => {
+              setShowTokenList(!showTokenList)
+              setTokenValue('from')
+            }} />
+             
+          
+          </div>
           <label
             htmlFor="sender"
             className="mb-2 block text-left text-sm text-black dark:text-white"
@@ -192,25 +188,21 @@ const SwapCard = () => {
                 <span className="text-xs text-gray-400">MAX</span>
               </div>
             </div>
-            <div onClick={(e) => {
-                setShowTokenList(!showTokenList)
-            }}>
+               
             <CoinSelect
               value={toCoin}
-              setValue={setToCoin}
-              supportedCoins={Object.values(
-                wagpay.getSupportedCoins(toChain.id)
-              )}
-              isDropDownOpenCoin={isDropDownOpenToCoin}
-              setIsDropDownOpenCoin={setIsDropDownOpenToCoin}
-            />
- 
-            </div>
-         </div>
+              onClick={() => {
+              setShowTokenList(!showTokenList)
+              setTokenValue('to')
+            }} />
+            
+          
+          </div>
           <div
             className="w-full flex justify-end py-2 text-lg cursor-pointer"
             onClick={(e) => {
               setSendToOpen(!sendToOpen);
+              setTokenValue('to')
             }}
           >
             +Send to
@@ -320,6 +312,8 @@ const SwapCard = () => {
           ) : null}
         </div>
       </section>
+
+      {showTokenList ? <TokenList tokenValue={tokenvalue}  /> : null}
     </>
   );
 };

@@ -1,6 +1,7 @@
-import { TokenInterface } from "../tokenlist";
+import { TokenInterface } from "@/contexts/ChainContext";
 
-  const Token = ({name, symbol, logoURI}: TokenInterface) => {
+
+  const Token = ({name, symbol, logoURI, address}: TokenInterface) => {
     return (
       <>
         <div className="w-full bg-[#353434] p-2 flex text-xl items-center space-x-2">

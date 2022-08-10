@@ -1,4 +1,4 @@
-import { TokenInterface } from ".";
+import {  TokenInterface } from "@/contexts/ChainContext";
 
  const CoinCaps = ({name, symbol, address, logoURI}: TokenInterface) => {
     return (

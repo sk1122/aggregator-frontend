@@ -342,7 +342,7 @@ const Swap = () => {
           <EarlyAcess />
         </Modal>
         {isTransectionModalOpen ? <Transections /> : null}
-        {showTokenList && <TokenList />}
+    
         
       </div>
     </Main>
