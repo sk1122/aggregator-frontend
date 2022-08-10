@@ -1,18 +1,16 @@
+import { TokenList } from '@/contexts/ChainContext';
 import { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import   { TokenList } from '.';
 import AddTokens from './addToken';
 import TokenListSelect from './TokenSelect';
 
 interface Props {
   tokenlists: TokenList[]
   setTokens: Function
-  
 }
 
 
 const CustomTokenList = ({tokenlists, setTokens}:Props) => {
-  
   const [selectedTab, setSelectedTab] = useState('List');
   return (
     <>
@@ -55,6 +53,7 @@ const CustomTokenList = ({tokenlists, setTokens}:Props) => {
               {tokenlists.map((tokenList: TokenList) => {
                 return (
                   <TokenListSelect
+                  url={tokenList.url}
                     setTokens={setTokens}
                     name={tokenList.name}
                     logo={tokenList.logourl}

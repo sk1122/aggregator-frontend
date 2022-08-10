@@ -20,10 +20,10 @@ interface Props {
     const {defaultTokens, setToCoin, setFromCoin  } = useChainContext()
     const {setShowTokenList, showTokenList} = useAppContext()
     const [searchToken, setSearchToken] = useState<string>('')
+    const [tokenOnScrenIndex, setTokenOnScreenIndex] = useState(10)
 
     useEffect(() => {
-      console.log(tokenValue)    
-      
+      console.log(tokenValue)   
     }, [])
     
 
@@ -48,10 +48,12 @@ interface Props {
             })
           }
         </div>
-        <div className='overflow-y-auto max-h-[330px]'>
+        <div className='overflow-y-auto max-h-[330px]' onScroll={() => {
+            setTokenOnScreenIndex(tokenOnScrenIndex + 1)
+        }}>
           <div className="w-full bg-[#1F1F1F] p-1 space-y-1">
             {
-            tokens?.slice(0,100).map((token: TokenInterface) => {
+            tokens?.slice(0,tokenOnScrenIndex).map((token: TokenInterface) => {
               return <div onClick={(e) => {
                 e.stopPropagation()
                 console.log(tokenValue)

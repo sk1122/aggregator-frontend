@@ -1,21 +1,38 @@
+import { TokenInterface } from "@/contexts/ChainContext";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface props  {
   name: string
   logo: string
+  url: string
   setTokens: Function
 }
 
-const TokenListSelect = ({name, logo, setTokens}: props) => {
-  const [toggle, setToggle] = useState(false);
+const TokenListSelect = ({name, logo, setTokens, url}: props) => {
+  const [toggle, setToggle] = useState(name=='1inch'? true:  false);
   const fetchNewTokens = async(url : string) => {
       const res = await axios.get(url);
+      const resTokens = res.data.tokens
+      if(resTokens) {
+      setTokens((prev: TokenInterface[]) =>  {
+          return [...resTokens, ...prev]
+      })
+      console.log(resTokens)
+      }
+ }
+
+useEffect(() => {
+  if(toggle) {
+    if(name !== '1inch') {
+    fetchNewTokens(url)
+    }
   }
+}, [toggle]) 
 
     return (
       <>
-        <div className="flex justify-between items-center p-2 bg-[#C8C8C8] text-black rounded-sm">
+        <div className={ (toggle ? ' bg-gray-200 text-wagpay-dark ': ' bg-[#353434] text-white ') +  ` flex justify-between items-center p-2  rounded-sm`}>
           <div className="flex items-center space-x-2">
             <img src={logo} className="w-6 h-6" alt="" />
             <div className="text-sm">

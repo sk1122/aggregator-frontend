@@ -10,7 +10,7 @@ interface AppContextInterface {
   // setAccess: Dispatch<SetStateAction<boolean>>
 }
 
-export const AppContext = createContext<AppContextInterface>({} as AppContextInterface);
+export const AppContext = createContext<any>({});
 
 export function useAppContext() {
   return useContext(AppContext);
