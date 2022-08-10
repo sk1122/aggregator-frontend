@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import { useEffect, useState } from 'react';
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { IoMdArrowBack } from 'react-icons/io';

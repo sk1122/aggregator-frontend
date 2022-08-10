@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import { useEffect, useState } from 'react';
 import WagPay from '@wagpay/sdk';
 import { AiOutlineClose } from 'react-icons/ai';

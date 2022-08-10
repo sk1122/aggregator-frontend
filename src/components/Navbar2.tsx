@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Link from 'next/link';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { useAppContext } from "@/context";
+import { useAppContext } from "@/contexts/context";
 import { TokenInterface, useChainContext } from "@/contexts/ChainContext";
 import { tokens } from "@wagpay/types";
 import { useEffect, useState } from "react";

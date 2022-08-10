@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import ChainSelect from './ChainSelect';
 import CoinSelect from './CoinSelect';
 import SwapChainButton from './swapChainButton';

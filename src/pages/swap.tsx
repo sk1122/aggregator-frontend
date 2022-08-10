@@ -20,7 +20,7 @@ import Modal from '@/components/Modal';
 import { db } from '@/utils/db';
 import Loading from '@/components/swap/loading';
 import EarlyAcess from '@/components/swap/EarlyAcess';
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import PriorityBar from '@/components/swap/priorityBar';
 import SwapCard from '@/components/swap/swapCard';
 import { useSigner } from 'wagmi';
@@ -186,8 +186,8 @@ const Swap = () => {
       getRoutes(
         Number(fromChain.id),
         Number(toChain.id),
-        fromCoin,
-        toCoin,
+        fromCoin.symbol,
+        toCoin.symbol,
         // @ts-ignore
         ethers.utils
           .parseUnits(

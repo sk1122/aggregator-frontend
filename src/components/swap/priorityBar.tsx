@@ -1,6 +1,6 @@
 import { FiRefreshCw } from 'react-icons/fi';
 import { MdArrowDropDown } from 'react-icons/md';
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 
 
 const PriorityBar = () => {

@@ -1,19 +1,31 @@
-import '../styles/global.css';
-import type { AppProps } from 'next/app';
-import { AppContext } from '@/contexts/context';
-import { ConnectWalletProvider } from '@/contexts/ConnectWalletContext';
-import { Toaster } from 'react-hot-toast';
-import { useState } from 'react';
-import WagPay from '@wagpay/sdk';
-import type { Chain, CoinKey, Routes } from '@wagpay/types';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { ChainContextProvider } from '@/contexts/ChainContext';
+import WagPay from "@wagpay/sdk";
+import { Routes } from "@wagpay/types";
+import {  createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
+import { QueryClient } from "react-query";
+import { Chain } from "wagmi";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const wagpay = new WagPay();
+
+interface AppContextInterface {
+  // access: boolean
+  // setAccess: Dispatch<SetStateAction<boolean>>
+}
+
+export const AppContext = createContext<AppContextInterface>({} as AppContextInterface);
+
+export function useAppContext() {
+  return useContext(AppContext);
+}
+
+interface IAppContextProps {
+    children: ReactNode; 
+}
+
+
+export function AppContextProvider({children}: IAppContextProps) {
+    const wagpay = new WagPay();
   const queryClient = new QueryClient();
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
-  const [access, setAccess] = useState(false);
+  const [access, setAccess] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropDownOpenp, setIsDropDownOpenp] = useState(false);
   const [priorityValue, setPriorityValue] = useState(priorties[0]);
@@ -41,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [ toAdress, setToAdress] = useState<string | null > (null)
   const [showTokenList, setShowTokenList] = useState(false)
 
-  const sharedState = {
+   const sharedState: AppContextInterface = {
     access,
     setAccess,
     isModalOpen,
@@ -86,20 +98,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     showTokenList, setShowTokenList
   };
 
-  return (
-    <div className="min-h-screen bg-wagpay-dark  text-white">
-      <QueryClientProvider client={queryClient}>
-        <ChainContextProvider>
-          <AppContext.Provider value={sharedState}>
-            <ConnectWalletProvider>
-              <Toaster></Toaster>
-              <Component {...pageProps} />
-            </ConnectWalletProvider>
-          </AppContext.Provider>
-        </ChainContextProvider>
-      </QueryClientProvider>
-    </div>
-  );
-}
 
-export default MyApp;
+  return (
+    <AppContext.Provider value={sharedState}>
+      {children}
+    </AppContext.Provider>
+  )
+}
