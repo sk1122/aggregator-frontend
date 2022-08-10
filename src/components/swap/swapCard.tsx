@@ -30,6 +30,7 @@ const SwapCard = () => {
     showTokenList,
     setShowTokenList,
     setToAdress,
+
   } = useAppContext();
 
   const {
@@ -153,6 +154,9 @@ const SwapCard = () => {
                 <span className="text-xs text-gray-400">MAX</span>
               </div>
             </div>
+            <div onClick={(e) => {
+              setShowTokenList(!showTokenList)
+            }}>
             <CoinSelect
               value={fromCoin}
               setValue={setFromCoin}
@@ -162,7 +166,9 @@ const SwapCard = () => {
               isDropDownOpenCoin={isDropDownOpenFromCoin}
               setIsDropDownOpenCoin={setIsDropDownOpenFromCoin}
             />
-          </div>
+ 
+            </div>
+         </div>
           <label
             htmlFor="sender"
             className="mb-2 block text-left text-sm text-black dark:text-white"
@@ -186,6 +192,9 @@ const SwapCard = () => {
                 <span className="text-xs text-gray-400">MAX</span>
               </div>
             </div>
+            <div onClick={(e) => {
+                setShowTokenList(!showTokenList)
+            }}>
             <CoinSelect
               value={toCoin}
               setValue={setToCoin}
@@ -195,7 +204,9 @@ const SwapCard = () => {
               isDropDownOpenCoin={isDropDownOpenToCoin}
               setIsDropDownOpenCoin={setIsDropDownOpenToCoin}
             />
-          </div>
+ 
+            </div>
+         </div>
           <div
             className="w-full flex justify-end py-2 text-lg cursor-pointer"
             onClick={(e) => {

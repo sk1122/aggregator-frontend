@@ -7,6 +7,16 @@ import { Token } from '@wagpay/types';
 import CustomTokenList from './customList';
 import DefaultTokenList from './DefaultList';
 
+export interface TokenList {
+  name: string;
+  url: string;
+  logourl: string;
+  timestamp: string;
+}
+
+
+
+
 
 export interface TokenInterface {
   address: string;
@@ -17,19 +27,29 @@ export interface TokenInterface {
   logoURI: string;
 }
 
+
+const defaultList: TokenList[] = [
+    {
+      name: '1inch',
+      url: 'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link',
+      timestamp: '2022-08-08T06:09:44.387+00:00',
+      logourl: 'https://app.1inch.io/assets/images/logo.png',
+    },
+    {
+      name: 'CoinGecko',
+      url: 'https://tokens.coingecko.com/uniswap/all.json',
+      timestamp: '2022-08-08T06:09:44.387+00:01',
+      logourl:
+        'https://www.coingecko.com/assets/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png',
+    },
+  ];
+
+
 const TokenList = () => {
   const { showTokenList, setShowTokenList } = useAppContext();
   const [onMangaeTokenPage, setOnManageTokenPage] = useState(false);
   const [tokens, setTokens] = useState<Token[] | null>(null);
-
-
-  const DefaultTokens: TokenInterface[] = [
-    {"address":"0xdAC17F958D2ee523a2206206994597C13D831ec7","chainId":1,"name":"TetherUSD","symbol":"USDT","decimals":6,"logoURI":"https://tokens.1inch.io/0xdac17f958d2ee523a2206206994597c13d831ec7.png"},
-    {"address":"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48","chainId":1,"name":"USDCoin","symbol":"USDC","decimals":6,"logoURI":"https://tokens.1inch.io/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"},
-    {"address":"0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0","chainId":1,"name":"MaticToken","symbol":"MATIC","decimals":18,"logoURI":"https://tokens.1inch.io/0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0.png"}
-
-  ]
-
+  const [tokenLists, setTokenlists] = useState<TokenList[]>(defaultList)
 
 
 
@@ -72,7 +92,7 @@ const TokenList = () => {
                   <h3 className="text-xl font-semibold">select token</h3>
                 </>
               ) : (
-                <h3 className="text-xl font-semibold">select token</h3>
+                <h3 className="text-xl font-semibold">mangae token</h3>
               )}
               <div>
                 <button
@@ -85,7 +105,7 @@ const TokenList = () => {
             </div>
             {/*body*/}
             <div className="relative py-2 flex-auto min-h-[500px] space-y-3">
-              {onMangaeTokenPage ? <CustomTokenList /> : <DefaultTokenList setOnManageTokenPage={setOnManageTokenPage} tokens={tokens} />}
+              {onMangaeTokenPage ? <CustomTokenList setTokens={setTokens} tokenlists={tokenLists} /> : <DefaultTokenList setOnManageTokenPage={setOnManageTokenPage} tokens={tokens} />}
             </div>
           </div>
         </div>

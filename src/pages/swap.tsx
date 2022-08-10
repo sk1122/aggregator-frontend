@@ -56,6 +56,7 @@ const Swap = () => {
     refreshRoutes,
     setRefreshRoutes,
     isTransectionModalOpen,
+    showTokenList
   } = useAppContext();
 
   const {
@@ -341,7 +342,8 @@ const Swap = () => {
           <EarlyAcess />
         </Modal>
         {isTransectionModalOpen ? <Transections /> : null}
-        <TokenList />
+        {showTokenList && <TokenList />}
+        
       </div>
     </Main>
   );

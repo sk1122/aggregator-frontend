@@ -1,12 +1,18 @@
+import axios from "axios";
 import { useState } from "react";
 
 interface props  {
   name: string
   logo: string
+  setTokens: Function
 }
 
-const TokenListSelect = ({name, logo}: props) => {
+const TokenListSelect = ({name, logo, setTokens}: props) => {
   const [toggle, setToggle] = useState(false);
+  const fetchNewTokens = async(url : string) => {
+      const res = await axios.get(url);
+  }
+
     return (
       <>
         <div className="flex justify-between items-center p-2 bg-[#C8C8C8] text-black rounded-sm">
