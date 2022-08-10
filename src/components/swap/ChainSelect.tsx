@@ -49,7 +49,7 @@ const ChainSelect = ({
               <span className="leading-6 flex">
                 {value.chainName}
                 {value.id === activeChain?.id && (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6">
                     <circle cx="5" cy="5" r="5" fill="green" />
                   </svg>
                 )}
