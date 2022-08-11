@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import first from "../landing/first";
-import token from "./token";
-
 import Token from "./token";
 import CoinCaps from "./tokencap";
+
 
 interface Props {
   setOnManageTokenPage: Function
@@ -22,10 +21,6 @@ interface Props {
     const [searchToken, setSearchToken] = useState<string>('')
     const [tokenOnScrenIndex, setTokenOnScreenIndex] = useState(10)
 
-    useEffect(() => {
-      console.log(tokenValue)   
-    }, [])
-    
 
     return (
       <>
@@ -44,7 +39,14 @@ interface Props {
         <div className="flex flex-wrap items-center space-x-2 space-y-1">
           {
             defaultTokens?.map((token: TokenInterface) => {
-              return <CoinCaps name={token.name} symbol={token.symbol} key={token.address} logoURI={token.logoURI} chainId={token.chainId} address={token.address} decimals={token.decimals} />
+              return <div onClick={() => {
+                if(tokenValue == 'from') {
+                  setFromCoin(token)
+                } else {
+                    setToCoin(token)
+                }
+                setShowTokenList(false)
+              }}> <CoinCaps name={token.name}  symbol={token.symbol} key={token.address} logoURI={token.logoURI} chainId={token.chainId} address={token.address} decimals={token.decimals} /> </div>
             })
           }
         </div>
@@ -53,7 +55,13 @@ interface Props {
         }}>
           <div className="w-full bg-[#1F1F1F] p-1 space-y-1">
             {
-            tokens?.slice(0,tokenOnScrenIndex).map((token: TokenInterface) => {
+            tokens?.slice(0, searchToken == ''?  tokenOnScrenIndex: tokens?.length-1).filter((token: TokenInterface) => {
+              if(searchToken == ''){
+                return token
+              } else if (token.name.toLowerCase().includes(searchToken.toLowerCase())){
+                return token
+              }
+            }).map((token: TokenInterface) => {
               return <div onClick={(e) => {
                 e.stopPropagation()
                 console.log(tokenValue)
