@@ -1,19 +1,18 @@
 import { useAppContext } from '@/contexts/context';
 import { useEffect, useState } from 'react';
-import WagPay from '@wagpay/sdk';
+import {getPendingTx} from '@wagpay/sdk';
 import { AiOutlineClose } from 'react-icons/ai';
 import TransectionBar from './transectionBar';
 import { useSigner } from 'wagmi';
 
 const Transections = () => {
-  const wagpay = new WagPay();
   const [tsxs, setTsxs] = useState([]);
   const [transectionfilter, setTransectionFilter] = useState('all_transection')
   const { data: signerData, isError, isLoading } = useSigner();
   const { setIsTransectionModalOpen } = useAppContext();
   const fetchTransections = async () => {
     const address = await signerData?.getAddress();
-    const tsx: any = await wagpay.getTxs(
+    const tsx: any = await getPendingTx(
       '0x5b9f628bae945968a50827b0b586e0e52f65280d', ['from_token', 'to_token']
     );
     console.log(tsx);

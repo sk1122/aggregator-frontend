@@ -6,12 +6,9 @@ import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import WagPay from '@wagpay/sdk';
 import type { Chain, CoinKey, Routes } from '@wagpay/types';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ChainContextProvider } from '@/contexts/ChainContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const wagpay = new WagPay();
-  const queryClient = new QueryClient();
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
   const [access, setAccess] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -88,7 +85,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className="min-h-screen bg-wagpay-dark  text-white">
-      <QueryClientProvider client={queryClient}>
         <ChainContextProvider>
           <AppContext.Provider value={sharedState}>
             <ConnectWalletProvider>
@@ -97,7 +93,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             </ConnectWalletProvider>
           </AppContext.Provider>
         </ChainContextProvider>
-      </QueryClientProvider>
     </div>
   );
 }
