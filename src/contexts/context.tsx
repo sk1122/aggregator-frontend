@@ -1,13 +1,53 @@
-import WagPay from "@wagpay/sdk";
-import { Routes } from "@wagpay/types";
-import {  createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
-import { QueryClient } from "react-query";
-import { Chain } from "wagmi";
-
+import WagPay from '@wagpay/sdk';
+import { Routes } from '@wagpay/types';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import { Chain } from 'wagmi';
 
 interface AppContextInterface {
-  // access: boolean
-  // setAccess: Dispatch<SetStateAction<boolean>>
+  access: boolean;
+  setAccess: Dispatch<SetStateAction<boolean>>;
+  isModalOpen: boolean;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isDropDownOpenp: boolean;
+  setIsDropDownOpenp: Dispatch<SetStateAction<boolean>>;
+  priorityValue: string;
+  setPriorityValue: Dispatch<SetStateAction<string>>;
+  priorties: string[];
+  routeToExecute: Routes | null;
+  setRouteToExecute: Dispatch<SetStateAction<Routes | null>>;
+  account: string | undefined;
+  setAccount: Dispatch<SetStateAction<string | undefined>>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  swapping: boolean;
+  setSwapping: Dispatch<SetStateAction<boolean>>;
+  routes: Routes[] | null;
+  setRoutes: Dispatch<SetStateAction<Routes[] | null>>;
+  filteredFromChains: Chain[];
+  setFilteredFromChains: Dispatch<SetStateAction<Chain[]>>;
+  filteredToChains: Chain[];
+  setFilteredToChains: Dispatch<SetStateAction<Chain[]>>;
+  setSigner: Dispatch<SetStateAction<any>>;
+  signer: any;
+  isDropDownOpenFromCoin: boolean;
+  setIsDropDownOpenFromCoin: Dispatch<SetStateAction<boolean>>;
+  isDropDownOpenToCoin: boolean;
+  setIsDropDownOpenToCoin: Dispatch<SetStateAction<boolean>>;
+  refreshRoutes: boolean;
+  setRefreshRoutes: Dispatch<SetStateAction<boolean>>;
+  isTransectionModalOpen: boolean;
+  setIsTransectionModalOpen: Dispatch<SetStateAction<boolean>>;
+  toAdress: string | null;
+  setToAdress: Dispatch<SetStateAction<string | null>>;
+  showTokenList: boolean;
+  setShowTokenList: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<any>({});
@@ -17,43 +57,31 @@ export function useAppContext() {
 }
 
 interface IAppContextProps {
-    children: ReactNode; 
+  children: ReactNode;
 }
 
-
-export function AppContextProvider({children}: IAppContextProps) {
-    const wagpay = new WagPay();
-  const queryClient = new QueryClient();
+export function AppContextProvider({ children }: IAppContextProps) {
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
   const [access, setAccess] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropDownOpenp, setIsDropDownOpenp] = useState(false);
   const [priorityValue, setPriorityValue] = useState(priorties[0]);
-  // const [fromChain, setFromChain] = useState<Chain>(wagpay.getSupportedChains()[0]);
-  // const [toChain, setToChain] = useState<Chain>(wagpay.getSupportedChains()[1]);
-  // const [toggle, setToggle] = useState(false);
-  // const [fromCoin, setFromCoin] = useState(Object.values(wagpay.getSupportedCoins(fromChain.id))[0].chainAgnositcId);
-  // const [toCoin, setToCoin] = useState(Object.values(wagpay.getSupportedCoins(toChain.id))[1].chainAgnositcId);
-  // const [amount, setAmount] = useState('0');
-  const [routeToExecute, setRouteToExecute] = useState<Routes>();
+  const [routeToExecute, setRouteToExecute] = useState<Routes | null>(null);
   const [account, setAccount] = useState<string | undefined>('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [swapping, setSwapping] = useState(false);
-  const [routes, setRoutes] = useState<Routes[]>();
-  const [isDropDownOpenFromCoin, setIsDropDownOpenFromCoin] = useState(false);
-  const [isDropDownOpenToCoin, setIsDropDownOpenToCoin] = useState(false);
-  const [refreshRoutes, setRefreshRoutes] = useState();
-  // @ts-ignore
-  // const { data: signerData, isError, isLoading } = useSigner();
-
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [swapping, setSwapping] = useState<boolean>(false);
+  const [routes, setRoutes] = useState<Routes[] | null>(null);
+  const [isDropDownOpenFromCoin, setIsDropDownOpenFromCoin] = useState<boolean>(false);
+  const [isDropDownOpenToCoin, setIsDropDownOpenToCoin] = useState<boolean>(false);
+  const [refreshRoutes, setRefreshRoutes] = useState<boolean>(false);
   const [filteredFromChains, setFilteredFromChains] = useState<Chain[]>([]);
   const [filteredToChains, setFilteredToChains] = useState<Chain[]>([]);
-  const [signer, setSigner] = useState();
-  const [isTransectionModalOpen, setIsTransectionModalOpen] = useState(false);
-  const [ toAdress, setToAdress] = useState<string | null > (null)
-  const [showTokenList, setShowTokenList] = useState(false)
+  const [signer, setSigner] = useState<any>();
+  const [isTransectionModalOpen, setIsTransectionModalOpen] = useState<boolean>(false);
+  const [toAdress, setToAdress] = useState<string | null>(null);
+  const [showTokenList, setShowTokenList] = useState<boolean>(false);
 
-   const sharedState: AppContextInterface = {
+  const sharedState: AppContextInterface = {
     access,
     setAccess,
     isModalOpen,
@@ -63,12 +91,6 @@ export function AppContextProvider({children}: IAppContextProps) {
     priorityValue,
     setPriorityValue,
     priorties,
-    // fromChain, setFromChain,
-    // toChain, setToChain,
-    // toggle, setToggle,
-    // fromCoin, setFromCoin,
-    // toCoin, setToCoin,
-    // amount, setAmount,
     routeToExecute,
     setRouteToExecute,
     account,
@@ -79,7 +101,6 @@ export function AppContextProvider({children}: IAppContextProps) {
     setSwapping,
     routes,
     setRoutes,
-    // signerData,
     filteredFromChains,
     setFilteredFromChains,
     filteredToChains,
@@ -94,14 +115,13 @@ export function AppContextProvider({children}: IAppContextProps) {
     setRefreshRoutes,
     isTransectionModalOpen,
     setIsTransectionModalOpen,
-    toAdress, setToAdress,
-    showTokenList, setShowTokenList
+    toAdress,
+    setToAdress,
+    showTokenList,
+    setShowTokenList,
   };
 
-
   return (
-    <AppContext.Provider value={sharedState}>
-      {children}
-    </AppContext.Provider>
-  )
+    <AppContext.Provider value={sharedState}>{children}</AppContext.Provider>
+  );
 }

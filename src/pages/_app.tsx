@@ -7,7 +7,7 @@ import { useState } from 'react';
 import WagPay from '@wagpay/sdk';
 import type { Chain, CoinKey, Routes } from '@wagpay/types';
 import { ChainContextProvider } from '@/contexts/ChainContext';
-
+import assets from "public.json"
 function MyApp({ Component, pageProps }: AppProps) {
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
   const [access, setAccess] = useState(false);
@@ -82,6 +82,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     toAdress, setToAdress,
     showTokenList, setShowTokenList
   };
+
 
   return (
     <div className="min-h-screen bg-wagpay-dark  text-white">
