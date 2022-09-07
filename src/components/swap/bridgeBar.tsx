@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ethers } from 'ethers';
 import { Routes, chainEnum } from '@wagpay/types';
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 
 interface IBridgeBarProps {
   bridge: Routes;

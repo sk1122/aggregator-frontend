@@ -1,4 +1,4 @@
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import { useChainContext } from '@/contexts/ChainContext';
 import { TbArrowsLeftRight } from 'react-icons/tb';
 
