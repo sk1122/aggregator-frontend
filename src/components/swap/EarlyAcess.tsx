@@ -1,4 +1,4 @@
-import { useAppContext } from "@/context";
+import { useAppContext } from "@/contexts/context";
 
 const EarlyAcess = () => {
   const {access, setAccess, isModalOpen, setIsModalOpen} = useAppContext()

@@ -20,16 +20,15 @@ import Modal from '@/components/Modal';
 import { db } from '@/utils/db';
 import Loading from '@/components/swap/loading';
 import EarlyAcess from '@/components/swap/EarlyAcess';
-import { useAppContext } from '@/context';
+import { useAppContext } from '@/contexts/context';
 import PriorityBar from '@/components/swap/priorityBar';
 import SwapCard from '@/components/swap/swapCard';
 import { useSigner } from 'wagmi';
 import { useChainContext } from '@/contexts/ChainContext';
 import Transections from '@/components/transections';
-import WagPay from "@wagpay/sdk"
+import {getPendingTx, getRoutes, getSupportedChains} from "@wagpay/sdk"
 
 const Swap = () => {
-  const wagpay = new WagPay()
   const {
     access,
     setAccess,
@@ -55,6 +54,7 @@ const Swap = () => {
     refreshRoutes,
     setRefreshRoutes,
     isTransectionModalOpen,
+    showTokenList
   } = useAppContext();
 
   const {
@@ -150,13 +150,7 @@ const Swap = () => {
     const toastId = toast.loading('Fetching Routes');
 
     try {
-      availableRoutes = await wagpay.getRoutes({
-        fromChain: chainEnum[fromChainId] as ChainId,
-        toChain: chainEnum[toChainId] as ChainId,
-        fromToken: coinEnum[fromToken] as CoinKey,
-        toToken: coinEnum[toToken] as CoinKey,
-        amount: _amount,
-      });
+      availableRoutes = await getRoutes(fromChainId, toChainId, fromToken, toToken, _amount);
     } catch (e) {
       toast.error("Can't Fetch Routes Between these chains", {
         id: toastId,
@@ -184,8 +178,8 @@ const Swap = () => {
       getRoutes(
         Number(fromChain.id),
         Number(toChain.id),
-        fromCoin,
-        toCoin,
+        fromCoin.symbol,
+        toCoin.symbol,
         // @ts-ignore
         ethers.utils
           .parseUnits(
@@ -222,14 +216,14 @@ const Swap = () => {
   }, []);
 
   useEffect(() => {
-    const filteredChains = wagpay.getSupportedChains().filter((chain) => {
+    const filteredChains = getSupportedChains().filter((chain) => {
       return chain.id != fromChain.id;
     });
     setFilteredFromChains(filteredChains);
   }, [fromChain]);
 
   useEffect(() => {
-    const filteredChains = wagpay.getSupportedChains().filter((chain) => {
+    const filteredChains = getSupportedChains().filter((chain) => {
       return chain.id != toChain.id;
     });
     setFilteredToChains([...filteredChains]);
@@ -237,7 +231,7 @@ const Swap = () => {
 
   useEffect(() => {
     if (toChain.id === fromChain.id) {
-      const toC = wagpay.getSupportedChains().find((chain) => {
+      const toC = getSupportedChains().find((chain) => {
         return fromChain.id != chain.id;
       });
       if (!toC) return;
@@ -247,7 +241,7 @@ const Swap = () => {
 
   useEffect(() => {
     if (toChain.id === fromChain.id) {
-      const toC = wagpay.getSupportedChains().find((chain) => {
+      const toC = getSupportedChains().find((chain) => {
         return toChain.id != chain.id;
       });
       if (!toC) return;
@@ -340,6 +334,8 @@ const Swap = () => {
           <EarlyAcess />
         </Modal>
         {isTransectionModalOpen ? <Transections /> : null}
+    
+        
       </div>
     </Main>
   );

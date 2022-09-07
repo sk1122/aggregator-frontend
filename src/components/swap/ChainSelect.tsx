@@ -42,14 +42,14 @@ const ChainSelect = ({
           <div className="flex h-11 w-full cursor-pointer select-none flex-row justify-between bg-[#464646] py-2.5 pl-3 pr-2 text-white">
             <div className="flex flex-row items-center">
               <img
-                className="mr-2.5 h-6 w-6 rounded-md bg-gray-300 object-cover"
+                className="mr-2.5 h-6 w-6 rounded-full bg-gray-300 object-cover"
                 src={value.logoUri}
                 alt="chain_icon"
               />
               <span className="leading-6 flex">
                 {value.chainName}
                 {value.id === activeChain?.id && (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6">
                     <circle cx="5" cy="5" r="5" fill="green" />
                   </svg>
                 )}

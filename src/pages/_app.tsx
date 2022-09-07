@@ -1,17 +1,14 @@
 import '../styles/global.css';
 import type { AppProps } from 'next/app';
-import { AppContext } from '@/context';
+import { AppContext } from '@/contexts/context';
 import { ConnectWalletProvider } from '@/contexts/ConnectWalletContext';
 import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 import WagPay from '@wagpay/sdk';
 import type { Chain, CoinKey, Routes } from '@wagpay/types';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ChainContextProvider } from '@/contexts/ChainContext';
-
+import assets from "public.json"
 function MyApp({ Component, pageProps }: AppProps) {
-  const wagpay = new WagPay();
-  const queryClient = new QueryClient();
   const priorties = ['Highest returns', 'Lowest bridge fees', 'Lowest time'];
   const [access, setAccess] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [signer, setSigner] = useState();
   const [isTransectionModalOpen, setIsTransectionModalOpen] = useState(false);
   const [ toAdress, setToAdress] = useState<string | null > (null)
+  const [showTokenList, setShowTokenList] = useState(false)
 
   const sharedState = {
     access,
@@ -81,12 +79,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     setRefreshRoutes,
     isTransectionModalOpen,
     setIsTransectionModalOpen,
-    toAdress, setToAdress
+    toAdress, setToAdress,
+    showTokenList, setShowTokenList
   };
+
 
   return (
     <div className="min-h-screen bg-wagpay-dark  text-white">
-      <QueryClientProvider client={queryClient}>
         <ChainContextProvider>
           <AppContext.Provider value={sharedState}>
             <ConnectWalletProvider>
@@ -95,7 +94,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             </ConnectWalletProvider>
           </AppContext.Provider>
         </ChainContextProvider>
-      </QueryClientProvider>
     </div>
   );
 }
